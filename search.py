@@ -85,7 +85,7 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
             currentNode = stateQueue.pop(0)
 
         #add to the visited states
-        print 'popped node:',currentNode.problem
+        #print 'popped node:',currentNode.problem
         visitedStack.append(currentNode)
 
         #check if the current state is the goal
@@ -131,11 +131,13 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
 
 # read raw input, run search and print solution
 def printSolution(algorithmName, height, start, goal, heuristic=None):
+    start = start.replace("\r", "")
     start = start.replace(" ", "")
     start = start.replace("(", "")
     start = start.replace(")", "")
     startContainers = start.split(';')
 
+    goal = goal.replace("\r", "")
     goal = goal.replace(" ", "")
     goal = goal.replace("(", "")
     goal = goal.replace(")", "")
