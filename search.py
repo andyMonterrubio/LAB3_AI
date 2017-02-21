@@ -85,7 +85,7 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
             currentNode = stateQueue.pop(0)
 
         #add to the visited states
-        #print 'popped node:',currentNode.problem
+        print 'popped node:',currentNode.problem
         visitedStack.append(currentNode)
 
         #check if the current state is the goal
@@ -151,7 +151,7 @@ def printSolution(algorithmName, height, start, goal, heuristic=None):
         solutionSteps = []
         node = solution
         while node.action:
-            solutionSteps.append("(" + node.action + ")")
+            solutionSteps.append("(" + node.action.replace(',', ', ') + ")")
             node = node.parent
         solutionSteps.reverse()
         print solution.cost
