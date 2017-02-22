@@ -162,4 +162,4 @@ def printSolution(algorithmName, height, start, goal, heuristic=None):
         print solution.cost
         print "; ".join(solutionSteps)
     else:
-        print 'No solution was found'
+        print 'No solution found'
