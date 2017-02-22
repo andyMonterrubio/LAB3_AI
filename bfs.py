@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 from search import printSolution
 
 if __name__ == "__main__":

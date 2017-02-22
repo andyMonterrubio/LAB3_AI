@@ -1,9 +1,8 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+#main class 
 
 class Node(object):
     def __init__(self):
-        self.problem = None #current node (containers) list
+        self.problem = None #containers list
         self.parent = None
         self.action = None
         self.cost = None
@@ -18,40 +17,44 @@ def childNode(problem, parent, action, cost, heuristic):
     node.heuristic = heuristic
     return node
     
-def checkGoal(node,goal):
+
+def reviewGoal(node,goal):
     count = 0
-    for pair in goal:
-        if pair != 'X':
-            if node.problem[count] != pair:
+    for container in goal:
+        if container != 'X':
+            if node.problem[count] != container:
                 return False
         count = count+1
-    return True      
-    
+    return True
 
 # create new state based on parent's state and proposed move
 def createList(move, parentList):
-    origin = move[0]
+    startPoint = move[0]
     end = move[1]
-    newList = []
-    for letter in parentList: #copy parent list into newList
-        newList.append(letter)
-        
-    potentialMove = newList.pop(origin).split(',') #get stack where the box to move is
+    auxList = []
+    
+    #copy parent list into auxList
+    for element in parentList: 
+        auxList.append(element) 
+    
+    #get stack where the box could move in 
+    potentialMove = auxList.pop(startPoint).split(',') 
     boxToMove = potentialMove.pop() #get box
     if len(potentialMove) <= 1:
-        newList.insert(origin,''.join(potentialMove)) #return what was not taken from the stack
+        auxList.insert(startPoint,''.join(potentialMove)) #return what was not taken from the stack
     else:
-        newList.insert(origin,','.join(potentialMove))
+        auxList.insert(startPoint,','.join(potentialMove))
         
-    endList = newList.pop(end).split(',')#get the stack where the box will be moved
+    endList = auxList.pop(end).split(',')#get the stack where the box will be moved
     if '' in endList:
         endList.insert(0,boxToMove)
-        endList.pop()#add the box to the stack
+        endList.pop()
     else:
-        endList.append(boxToMove)#add the box to the stack
+        endList.append(boxToMove)
 
-    newList.insert(end,','.join(endList)) #return the stack to the list
-    return newList
+    #return the stack to the list
+    auxList.insert(end,','.join(endList)) 
+    return auxList
     
     
 def lookforNode(n, visitedStack, hasHeuristic=False):
@@ -89,7 +92,7 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
         visitedStack.append(currentNode)
 
         #check if the current state is the goal
-        if checkGoal(currentNode,goal):
+        if reviewGoal(currentNode,goal):
             return currentNode
         else:
             #get the length for each container
@@ -159,4 +162,4 @@ def printSolution(algorithmName, height, start, goal, heuristic=None):
         print solution.cost
         print "; ".join(solutionSteps)
     else:
-        print 'No solution found'
+        print 'No solution was found'
