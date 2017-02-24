@@ -12,10 +12,10 @@ def good_heuristic(node, goal):
                 a[box] = i
 
     for i in range(0, len(node.problem)):
-            boxes = node.problem[i].split(',')
-            for box in boxes:
-                if box != '':
-                    a[box] = abs(i - a[box]) #calculate h
+        boxes = node.problem[i].split(',')
+        for box in boxes:
+            if box != '':
+                a[box] = abs(i - a.get(box, 0)) #calculate h
     
     return sum(a.values())
 
