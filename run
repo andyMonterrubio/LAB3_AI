@@ -1,23 +1,28 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+#Heuristic: number of stacks that the container has to travel. 
+
 from search import printSolution
 
 def good_heuristic(node, goal):
-    a = {}
+    distances = {}
     for i in range(0, len(goal.problem)):
         boxes = goal.problem[i].split(',')
         for box in boxes:
             if box != '' and box != 'X':
-                a[box] = i
+                distances[box] = i
 
     for i in range(0, len(node.problem)):
         boxes = node.problem[i].split(',')
         for box in boxes:
             if box != '':
-                a[box] = abs(i - a.get(box, 0)) #calculate h
+                if box in distances:
+                    distances[box] = abs(i - distances[box]) + 1 #calculate h
+                else:
+                    distances[box] = 0
     
-    return sum(a.values())
+    return sum(distances.values())
 
 
 if __name__ == "__main__":

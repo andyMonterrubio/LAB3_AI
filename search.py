@@ -8,13 +8,12 @@ class Node(object):
         self.cost = None
         self.heuristic = None
 
-def childNode(problem, parent, action, cost, heuristic):
+def childNode(problem, parent, action, cost):
     node = Node()
     node.action = action
     node.parent = parent
     node.problem = problem
     node.cost = cost
-    node.heuristic = heuristic
     return node
     
 
@@ -73,10 +72,10 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
     stateQueue = [] #nodes to be visited
     visitedStack = [] #nodes that were already visited
 
-    root = childNode(start, None, None, 0, None)
+    root = childNode(start, None, None, 0)
     stateQueue.append(root)
 
-    goalNode = childNode(goal, None, None, 0, 0)
+    goalNode = childNode(goal, None, None, 0)
 
     while stateQueue:
         lengthStack = []
@@ -93,6 +92,7 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
 
         #check if the current state is the goal
         if reviewGoal(currentNode,goal):
+            # print "Visited nodes = " + str(len(visitedStack))
             return currentNode
         else:
             #get the length for each container
@@ -121,8 +121,8 @@ def search(algorithmName, start, goal, height, heuristic=(lambda node, goal : 0)
                 # print 'currentNode problem:', currentNode.problem
                 nodeCost = currentNode.cost + abs(move[1]-move[0]) + 1
                 newNode = childNode(createList(move, currentNode.problem), currentNode,
-                          str(move[0])+','+str(move[1]), nodeCost,
-                          heuristic(currentNode, goalNode) + nodeCost)
+                          str(move[0])+','+str(move[1]), nodeCost)
+                newNode.heuristic = heuristic(newNode, goalNode) + nodeCost
                 #print 'new:',newNode.problem
                 if not lookforNode(newNode, visitedStack, algorithmName == 'a*'):
                     stateQueue.append(newNode)
