@@ -3,9 +3,23 @@
 
 from search import printSolution
 
+
 def bad_heuristic(node, goal):
-    for currentContainer in node.problem:
-        boxes = currentContainer.split(',')
+    a = {}
+    for i in range(0, len(goal.problem)):
+        boxes = node.problem[i].split(',')
+        for box in boxes:
+            if box != '' and box != 'X':
+                a[box] = i
+    
+    for i in range(0, len(node.problem)):
+            boxes = node.problem[i].split(',')
+            for box in boxes:
+                if box != '':
+                    a[box] = abs(i - a[box]) #calculate h
+    
+    return sum(a.values())
+
 
 if __name__ == "__main__":
     height = int(input()) #maximum height of stack
